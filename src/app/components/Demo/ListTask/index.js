@@ -57,6 +57,9 @@ function ListTaskContainer() {
       const newCards = [...list.cards];
 
       const [removed] = newCards.splice(source.index, 1);
+
+      console.log("removed",removed);
+
       newCards.splice(destination.index, 0, removed);
       setLists(
         lists.map((list) =>
@@ -65,12 +68,14 @@ function ListTaskContainer() {
       );
     } else {
       const sourceList = lists.find((list) => list.id === source.droppableId);
-      const destinationList = lists.find(
-        (list) => list.id === destination.droppableId
-      );
-      const sourceCards = Array.from(sourceList.cards);
-      const destCards = Array.from(destinationList.cards);
-      const [removed] = sourceCards.splice(source.index, 1);
+      const destinationList = lists.find((list) => list.id === destination.droppableId);
+
+      const destCards = [...destinationList.cards];
+      
+      const removed = sourceList.cards.find((card, index) => index === source.index);
+      
+      const sourceCards = sourceList.cards.filter((card, index) => index !== source.index);
+      
       destCards.splice(destination.index, 0, removed);
 
       setLists(
